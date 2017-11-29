@@ -1,0 +1,15 @@
+(FOREVER)
+arr = SCREEN
+n = 8192
+i = 0
+(LOOP)
+if (i==n) goto ENDLOOP
+if (*KBD != 0) goto ELSE
+RAM[arr+i] = -1
+goto ENDIF
+(ELSE)
+RAM[arr+i] = 0
+(ENDIF)
+i + +
+goto LOOP
+(ENDLOOP)

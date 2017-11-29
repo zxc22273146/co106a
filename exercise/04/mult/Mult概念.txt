@@ -1,0 +1,10 @@
+// R0 = 3
+// R1 = 5
+R2 = 0
+a = R0
+(LOOP)
+if(a <= 0 ) goto EXIT
+a = a-1
+R2 = R2 + R1
+goto LOOP
+(EXIT)

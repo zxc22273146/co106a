@@ -13,66 +13,73 @@
 
 // Put your code here.
 
-//forever
-//  arr = SCREEN
-//  for (i=0; i<8192; i++) {
-//    if (*KBD != 0)
-//      arr[i] = -1
-//    else
-//      arr[i] = 0
-//  }
-//  goto forever
+// forever
+//   arr = SCREEN
+//   for (i=0; i<8192; i++) {
+//     if (*KBD != 0)
+//       arr[i] = -1
+//     else
+//       arr[i] = 0
+//   }
+//   goto forever;
 
-(RESTART)
-@SCREEN
-D=A
-@0
-M=D	//PUT SCREEN START LOCATION IN RAM0
+(FOREVER)
+// arr = SCREEN
+	@SCREEN
+	D=A
+	@arr
+	M=D
 
-///////////////////////////
-(KBDCHECK)
+// n=8192
+	@8192
+	D=A
+	@n
+	M=D
 
-@KBD
-D=M
-@BLACK
-D;JGT	//JUMP IF ANY KBD KEYS ARE PRESSED
-@WHITE
-D;JEQ	//ELSE JUMP TO WHITEN
+	@i
+	M=0
+(LOOP)
+  // if (i==n) goto ENDLOOP
+	@i
+	D=M
+	@n
+	D=D-M
+	@ENDLOOP
+	D; JEQ   // Jump Equal
+	
+  // if (*KBD != 0)
+	@KBD
+	D=M     // D = *KBD
+	@ELSE
+	D; JEQ  // if (*KDB==0) goto ELSE
+	
+	//   RAM[arr+i] = -1
+	@arr
+	D=M
+	@i
+	A=D+M
+	M=-1
+	
+	@ENDIF
+	0; JMP
+(ELSE)	
+  // else 
+  //   RAM[arr+i] = 0
+	@arr
+	D=M
+	@i
+	A=D+M
+	M=0
+	
+(ENDIF)
+	
+	// i++
+	@i
+	M=M+1
+	
+	@LOOP
+	0; JMP
 
-@KBDCHECK
-0;JMP
-///////////////////////////
-(BLACK)
-@1
-M=-1	//WHAT TO FILL SCREEN WITH (-1=11111111111111)
-@CHANGE
-0;JMP
-
-(WHITE)
-@1
-M=0	//WHAT TO FILL SCREEN WITH
-@CHANGE
-0;JMP
-//////////////////////////
-(CHANGE)
-@1	//CHECK WHAT TO FILL SCREEN WITH
-D=M	//D CONTAINS BLACK OR WHITE
-
-@0
-A=M	//GET ADRESS OF SCREEN PIXEL TO FILL
-M=D	//FILL IT
-
-@0
-D=M+1	//INC TO NEXT PIXEL
-@KBD
-D=A-D	//KBD-SCREEN=A
-
-@0
-M=M+1	//INC TO NEXT PIXEL
-A=M
-
-@CHANGE
-D;JGT	//IF A=0 EXIT AS THE WHOLE SCREEN IS BLACK
-/////////////////////////
-@RESTART
-0;JMP
+(ENDLOOP)
+	@FOREVER
+	0; JMP

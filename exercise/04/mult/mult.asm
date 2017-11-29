@@ -8,47 +8,43 @@
 
 // Put your code here.
 
-//a = 0
-//LOOP:
-//  if (a <= 0) goto EXIT
-//    a=a-1
-//  R2 = R2 + R1
-//  goto LOOP
-
-@2	//GO TO FINAL ANSWER BOX
-M=0	//ZERO ANS BOX
-
-@0
-D=M
-@END
-D;JEQ	//IF ONE PRODUCT IS ZERO
-
-@1
-D=M
-@END
-D;JEQ	//IF ONE PRODUCT IS ZERO
-
-@0	//NOT NECESSARY
-D=M	//
-@3	//
-M=D	//ONLY TO KEEP THE NUMBERS BEING MUTLIPLED
+// R0=3
+//  @3   // 0
+//	D=A  // 1
+//	@R0  // 2
+//	M=D  // 3
+	
+// R1=5
+//	@5   // 4
+//	D=A  // 5
+//	@R1  // 6
+//	M=D  // 7
 
 
+	@R2           // R2 = 0
+	M = 0  
+	
+	@R0           // a = R0
+	D = M  
+	@a     
+	M = D  
 (LOOP)
-@1	//GET 2ND NUM
-D=M	//D HAS 2ND NUM
 
-@2	//GO TO FINAL ANSWER BOX
-M=D+M	//RAM[2] NOW HAS 2ND NUMBER + ITS PREVIOUS VALUE
+	@a            //   if (a <= 0) goto EXIT
+	D = M  
+	@EXIT  
+	D; JLE        //   JLE = Jump Less Equal  JGE
+	
+	@a            //   a=a-1;
+	M = M-1  
 
-@3	//GET 1ST NUM
-M=M-1	//1ST NUM-1
+	@R1           // 	R2 = R2 + R1;
+	D = M
+	@R2   
+	M = D+M 
 
-D=M	//IDK WHY D NEEDS TO =M?
-@LOOP	//WHERE TO JUMP TO
-D;JGT	//JUMP		    (WHY CANT THIS BE M;JGT?)
-
-
-(END)
-@END
-0;JMP	//FOREVER LOOP
+	@LOOP         // 	goto LOOP
+  0; JMP 
+(EXIT)
+  @EXIT  
+	0; JMP
