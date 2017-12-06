@@ -51,7 +51,7 @@
 	@KBD
 	D=M     // D = *KBD
 	@ELSE
-	D; JEQ  // if (*KDB==0) goto ELSE
+	D; JEQ  // if (*KBD==0) goto ELSE
 	
 	//   RAM[arr+i] = -1
 	@arr
